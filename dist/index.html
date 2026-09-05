@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+ <meta name="theme-color" content="#101317"><title>Old School Fighters</title>
+ <meta name="description" content="Cinco luchadores. Una azotea. Juego de lucha 2D contra la CPU o para dos jugadores en el mismo teclado.">
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="game" class="game-shell">
+ <header class="topbar">
+  <a class="brand" href="./" aria-label="Old School Fighters, inicio">OLD SCHOOL<span>FIGHTERS</span></a>
+  <span class="location">MADRID <span>/</span> LA AZOTEA</span>
+  <nav class="tools" aria-label="Opciones del juego">
+   <button id="sound" class="icon-button" aria-label="Silenciar sonido" title="Sonido" aria-pressed="true">♪</button>
+   <button id="help" class="icon-button" aria-label="Ver controles" title="Controles">?</button>
+   <button id="fullscreen" class="icon-button" aria-label="Pantalla completa" title="Pantalla completa">⛶</button>
+  </nav>
+ </header>
+ <div class="stage-wrap">
+  <div class="stage" id="stage" tabindex="0" aria-label="Arena. Usa A y D para moverte, W para saltar, S para agacharte, F para puñetazo, G para patada y H para bloquear.">
+   <canvas id="arena" width="1280" height="720" aria-hidden="true"></canvas>
+   <canvas id="fighters" width="1280" height="720" aria-hidden="true"></canvas>
+   <canvas id="effects" width="1280" height="720" aria-hidden="true"></canvas>
+   <div id="selection-title" class="selection-title"><span class="eyebrow">SELECCIÓN DE PERSONAJES</span><h1>¿QUIÉN ENTRA<br>EN LA ARENA?</h1></div>
+   <div class="versus" id="versus" aria-hidden="true">VS</div>
+   <div id="names" class="preview-names"><div><small>JUGADOR 1</small><strong id="left-name">CHAMO</strong></div><div><small id="rival-kind">CPU</small><strong id="right-name">RUFFO</strong></div></div>
+   <div id="hud" class="hud" hidden>
+    <div class="fighter-hud"><div class="hud-name"><strong id="hud-name-0">CHAMO</strong><span>J1</span></div><div class="health" id="health-0" role="meter" aria-label="Vida del jugador 1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i class="trail"></i><i class="hp"></i></div><div id="rounds-0" class="rounds"></div></div>
+    <div class="clock"><span id="round">RONDA 1</span><strong id="timer">60</strong><button id="pause" aria-label="Pausar combate">Ⅱ</button></div>
+    <div class="fighter-hud rival"><div class="hud-name"><strong id="hud-name-1">RUFFO</strong><span id="opponent-label">CPU</span></div><div class="health" id="health-1" role="meter" aria-label="Vida del rival" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i class="trail"></i><i class="hp"></i></div><div id="rounds-1" class="rounds"></div></div>
+   </div>
+   <div id="announcement" class="announcement" hidden></div>
+   <div id="loading" class="loading"><span class="eyebrow">PREPARANDO LA ARENA</span><strong id="loading-text">Cargando personajes…</strong><progress id="load-progress" max="5" value="0"></progress></div>
+   <div id="pause-panel" class="center-panel" hidden><span class="eyebrow">TIEMPO MUERTO</span><h2>PAUSA</h2><button id="resume" class="primary">Continuar combate</button><button id="quit" class="secondary">Volver a personajes</button></div>
+   <div id="result-panel" class="center-panel result" hidden><span class="eyebrow">FIN DEL COMBATE</span><h2 id="winner-title">VICTORIA</h2><p id="score"></p><button id="rematch" class="primary">Revancha <span>↻</span></button><button id="roster-return" class="secondary">Cambiar personajes</button></div>
+  </div>
+  <section id="lobby" class="lobby" aria-label="Seleccionar personajes y modo de juego">
+   <div class="lobby-top"><div class="targets" aria-label="Personaje a elegir"><button id="target-0" class="target active" aria-pressed="true">J1 <span>CHAMO</span></button><button id="target-1" class="target" aria-pressed="false">CPU <span>RUFFO</span></button></div><div class="mode-switch" aria-label="Modo de juego"><button id="mode-cpu" class="active" aria-pressed="true">Contra la CPU</button><button id="mode-local" aria-pressed="false">2 jugadores</button></div></div>
+   <div class="lobby-bottom"><div id="roster" class="roster" aria-label="Luchadores"></div><div class="launch"><label class="difficulty" id="difficulty-label">Dificultad <select id="difficulty"><option value="easy">Fácil</option><option value="normal" selected>Normal</option><option value="hard">Difícil</option></select></label><button id="start" class="primary" disabled>A LA ARENA <span>↗</span></button><span id="match-note">Gana 2 rondas · 60 segundos</span></div></div>
+  </section>
+ </div>
+ <footer class="control-strip"><span class="key-group"><kbd>A</kbd><kbd>D</kbd> Mover</span><span class="key-group"><kbd>W</kbd> Saltar</span><span class="key-group"><kbd>S</kbd> Agacharse</span><span class="key-group"><kbd>F</kbd> Puño</span><span class="key-group"><kbd>G</kbd> Patada</span><span class="key-group"><kbd>H</kbd> Bloquear</span><span class="key-group"><kbd>Esc</kbd> Pausa</span></footer>
+ <div id="touch-controls" class="touch-controls" hidden aria-label="Controles táctiles del jugador 1">
+  <div class="joystick" role="group" aria-label="Joystick: izquierda y derecha para andar; arriba para saltar; abajo para agacharse"><span class="stick-up">↑</span><span class="stick-down">↓</span><span class="stick-left">←</span><span class="stick-right">→</span><div class="joystick-knob"></div></div>
+  <div class="touch-actions"><button data-control="block" aria-label="Bloquear">GUARDIA</button><button data-control="punch" aria-label="Puñetazo, pulsa hasta tres veces para un combo">PUÑO<small>×3 COMBO</small></button><button data-control="kick" aria-label="Patada">PATADA</button></div>
+ </div>
+ <p class="mobile-tip" id="mobile-tip">También puedes jugar con teclado. En móvil, desliza el joystick para moverte; arriba salta, abajo se agacha. Juega en horizontal para ver mejor.</p>
+ <p id="live" class="sr-only" aria-live="polite"></p>
+</main>
+<dialog id="help-dialog"><div class="dialog-top"><span class="eyebrow">CÓMO JUGAR</span><button id="close-help" class="icon-button" aria-label="Cerrar controles">×</button></div><h2>DOMINA LA AZOTEA.</h2><p>Acércate, golpea y vuelve a cubrirte. Gana el primero que consiga dos rondas.</p><table><thead><tr><th>Movimiento</th><th>Jugador 1</th><th>Jugador 2</th></tr></thead><tbody><tr><td>Moverse</td><td>A / D</td><td>← / →</td></tr><tr><td>Saltar</td><td>W</td><td>↑</td></tr><tr><td>Agacharse</td><td>S</td><td>↓</td></tr><tr><td>Puñetazo</td><td>F</td><td>K</td></tr><tr><td>Patada</td><td>G</td><td>L</td></tr><tr><td>Bloquear</td><td>H</td><td>O</td></tr><tr><td>Pausar</td><td colspan="2">Esc</td></tr></tbody></table><p class="help-tip">Pulsa F (o PUÑO) tres veces durante los golpes para encadenar jab, directo y gancho. Máximo tres golpes por combo. La patada tiene más alcance. Agáchate para esquivar puñetazos altos. Mantén guardia para reducir el daño; contra golpes bajos, agáchate y bloquea.</p><p class="help-tip">El modo de 2 jugadores comparte teclado. Si varias teclas a la vez no responden, comprueba el límite de pulsaciones simultáneas de tu teclado.</p><button id="help-done" class="primary">Entendido</button></dialog>
+<script type="module" src="game.js"></script>
+</body></html>
