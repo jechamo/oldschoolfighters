@@ -2,6 +2,8 @@
 
 Juego de lucha 2D para navegador con Chamo, Nacho, Pablo, Ruffo y Ortega. Contra la CPU (tres dificultades) o dos jugadores en el mismo teclado. Gana el primero que consigue dos rondas.
 
+**Jugar online: <https://jechamo.github.io/oldschoolfighters/>**
+
 ## Jugar en local
 
 No requiere instalar paquetes ni compilar:
